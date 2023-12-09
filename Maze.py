@@ -1,7 +1,5 @@
 from itertools import count
 import pygame
-
-
 import os
 import sys
 import time
