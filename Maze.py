@@ -1,13 +1,14 @@
 from itertools import count
 import pygame
 
-import queue
+
 import os
 import sys
 import time
 
 from grid import *
 from A_star import *
+from BFS import *
 
 pygame.init()
 
@@ -27,85 +28,6 @@ neighbour=[]
 
 clock = pygame.time.Clock()
 
-
-
-def bfs_shortestpath(maze, path=""):
-    global grid
-    i,j=startp(maze,0,0)
-    pos = set()
-    for move in path:
-        if move == "L":
-            i -= 1
-
-        elif move == "R":
-            i += 1
-
-        elif move == "U":
-            j -= 1
-
-        elif move == "D":
-            j += 1
-        pos.add((j, i))
-    
-    for j, row in enumerate(maze):
-        for i, col in enumerate(row):
-            if (j, i) in pos:
-                
-                grid[j][i] = 4
-                
-def startp(maze,i,j):
-    for x in range(len(maze[0])):
-        try:
-            i =(maze[x].index(2))
-            j = x
-            print(j)
-            return i,j
-        except:
-            pass
-
-def bfs(maze, moves,i,j):
-    global found
-    for move in moves:
-        if move == "L":
-            i -= 1
-
-        elif move == "R":
-            i += 1
-
-        elif move == "U":
-            j -= 1
-
-        elif move == "D":
-            j += 1
-
-        if not(0 <= i < len(maze[0]) and 0 <= j < len(maze)):
-            return False
-        elif (maze[j][i] == 1.0):
-            return False
-        if maze[j][i] == 3:
-            print("Found: " + moves)
-            bfs_shortestpath(maze, moves)
-            found =True
-            return True
-            break
-    return True
-
-
-def bfs_solve():
-    global grid
-    nums= queue.Queue()
-    nums.put("")
-    add = ""
-    i,ii =startp(grid,0,0)
-    while found != True: 
-        add = nums.get()
-        for j in ["L", "R", "U", "D"]:
-            put = add + j
-            if bfs(grid, put,i,ii):
-                nums.put(put)
-            if(found == True):
-                break
-            
 while not done:
 
     for event in pygame.event.get(): 

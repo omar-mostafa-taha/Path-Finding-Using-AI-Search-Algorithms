@@ -22,7 +22,6 @@ def neighbourr(grid,neighbour):
             if (j < len(grid) - 1 and grid[i][j + 1] != 1):
                 neighbour[count].append((i,j+1))
             count+=1
-    return neighbour   
 
 
 def S_E(grid,start,end):
@@ -40,12 +39,11 @@ def short_path(grid, came_from, current):
      while current in came_from:
          current = came_from[current]
          grid[current[0]][current[1]] = 4
-     return grid
  
 def a_star(grid, neighbour):
     
-    neighbour = neighbourr(grid, neighbour)
-
+    neighbourr(grid, neighbour)
+    
     start,end = S_E(grid,0,0)
     count = 0
     open_set = PriorityQueue()
@@ -64,7 +62,7 @@ def a_star(grid, neighbour):
         open_set_his.remove(current)
         if current == end:
             print("finishing")
-            grid = short_path(grid, came_from, end)
+            short_path(grid, came_from, end)
             return True
         for nei in neighbour[current[0]*len(grid[0]) +current[1]]:
             temp_g_score = g_score[current[0]*len(grid[0]) +current[1]] + 1
