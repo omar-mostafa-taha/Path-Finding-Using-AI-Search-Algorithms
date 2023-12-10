@@ -7,7 +7,7 @@ import time
 from grid import *
 from A_star import *
 from BFS import *
-
+from greedy import *
 pygame.init()
 
 size = (706, 706)
@@ -22,7 +22,7 @@ grid = [[0 for x in range(33)] for y in range(33)]
 
 found = False
 done = False
-neighbour=[]
+
 
 clock = pygame.time.Clock()
 
@@ -68,7 +68,8 @@ while not done:
                 if((sum(x.count(2) for x in grid)) == 1):
                     print("Solving")
                     # bfs_solve()
-                    a_star(grid, neighbour)
+                    # a_star(grid)
+                    greedy(grid)
              if event.key == pygame.K_r:
 
                 grid = [[0 for x in range(33)] for y in range(33)]

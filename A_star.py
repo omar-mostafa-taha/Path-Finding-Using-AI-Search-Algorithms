@@ -7,7 +7,7 @@ def h(p1, p2):
 	x2, y2 = p2
 	return abs(x1 - x2) + abs(y1 - y2)
 
-def neighbourr(grid,neighbour):
+def neighbourr(grid):
     neighbour = [[]for col in range(len(grid)) for row in range(len(grid))]
     count=0
     for i in range(len(grid)):
@@ -42,14 +42,13 @@ def short_path(grid, came_from, current):
          grid[current[0]][current[1]] = 4
      return grid
  
-def a_star(grid, neighbour):
+def a_star(grid):
     
-    neighbour = neighbourr(grid, neighbour)
+    neighbour = neighbourr(grid)
 
     start,end = S_E(grid,0,0)
-    count = 0
     open_set = PriorityQueue()
-    open_set.put((0, count, start))
+    open_set.put((0,start))
     open_set_his = {start}
     came_from = {}
     
@@ -60,7 +59,7 @@ def a_star(grid, neighbour):
 
     
     while not open_set.empty():
-        current = open_set.get()[2]
+        current = open_set.get()[1]
         open_set_his.remove(current)
         if current == end:
             print("finishing")
@@ -73,8 +72,7 @@ def a_star(grid, neighbour):
                 g_score[nei[0]*len(grid[0]) +nei[1]] = temp_g_score
                 f_score[nei[0]*len(grid[0]) +nei[1]] = temp_g_score + h(nei, end)
                 if nei not in open_set_his:
-                    count += 1
-                    open_set.put((f_score[nei[0]*len(grid[0]) +nei[1]], count, nei))
+                    open_set.put((f_score[nei[0]*len(grid[0]) +nei[1]],  nei))
                     open_set_his.add(nei)
                     grid[nei[0]][nei[1]] = 5
                     pygame.display.update()
