@@ -4,6 +4,7 @@ import os
 import sys
 import time
 
+from DFS import *
 from grid import *
 from A_star import *
 from BFS import *
@@ -26,6 +27,8 @@ done = False
 
 clock = pygame.time.Clock()
 
+
+ 
 while not done:
 
     for event in pygame.event.get(): 
@@ -68,8 +71,14 @@ while not done:
                 if((sum(x.count(2) for x in grid)) == 1):
                     print("Solving")
                     # bfs_solve()
-                    # a_star(grid)
+                    # # a_star(grid)
                     greedy(grid)
+                    # start, end = S_E(grid, 0, 0)
+                    # visited = [[False for _ in range(33)] for _ in range(33)]
+                    # if(dfs_solve(grid, start, visited)):
+                    #     print("Found")
+                    # else:
+                    #     print("Not Found")
              if event.key == pygame.K_r:
 
                 grid = [[0 for x in range(33)] for y in range(33)]
