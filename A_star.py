@@ -1,11 +1,29 @@
 import time
 import pygame
+import math
 from queue import PriorityQueue
 
-def h(p1, p2):
-	x1, y1 = p1
-	x2, y2 = p2
-	return abs(x1 - x2) + abs(y1 - y2)
+def h(p1, p2,heuristic="manhattan"):
+    cost = 0
+    if heuristic == "manhattan":
+        x1, y1 = p1
+        x2, y2 = p2
+        cost =  abs(x1 - x2) + abs(y1 - y2)
+    elif heuristic == "euclidean":
+        x1, y1 = p1
+        x2, y2 = p2
+        cost = math.sqrt((x1 - x2)**2 + (y1 - y2)**2)
+    elif heuristic == "octile":
+        x1, y1 = p1
+        x2, y2 = p2
+        dx = abs(x1 - x2)
+        dy = abs(y1 - y2)
+        cost = max(dx, dy) + (math.sqrt(2) - 1) * min(dx, dy)
+    elif heuristic == "chebyshev":
+        x1, y1 = p1
+        x2, y2 = p2
+        cost = max(abs(x1 - x2), abs(y1 - y2))
+    return cost
 
 def neighbourr(grid):
     neighbour = [[]for col in range(len(grid)) for row in range(len(grid))]
@@ -42,7 +60,7 @@ def short_path(grid, came_from, current):
          grid[current[0]][current[1]] = 4
      return grid
  
-def a_star(grid):
+def a_star(grid,heuristic="manhattan"):
     
     neighbour = neighbourr(grid)
 
@@ -57,15 +75,18 @@ def a_star(grid):
     f_score = [ float("inf") for row in grid for spot in row ]
     f_score[start[0]*len(grid[0]) +start[1]] = h(start, end)
 
-    
+    step_counter = 0  # Initialize step counter
+    start_time = time.time()  # Record start time
     while not open_set.empty():
         current = open_set.get()[1]
         open_set_his.remove(current)
         if current == end:
             print("finishing")
-            grid = short_path(grid, came_from, end)
-            return True
+            end_time = time.time()  # Record end time
+            total_time = end_time - start_time  # Calculate total time
+            return True, step_counter, total_time
         for nei in neighbour[current[0]*len(grid[0]) +current[1]]:
+            step_counter += 1  # Increment step counter for each explored neighbor
             temp_g_score = g_score[current[0]*len(grid[0]) +current[1]] + 1
             if temp_g_score < g_score[nei[0]*len(grid[0]) +nei[1]]:
                 came_from[nei] = current
@@ -84,7 +105,9 @@ def a_star(grid):
             time.sleep(0.01)
         
 
-    return False
+    end_time = time.time()  # Record end time if no path is found
+    total_time = end_time - start_time  # Calculate total time
+    return False, step_counter, total_time
 
 
 

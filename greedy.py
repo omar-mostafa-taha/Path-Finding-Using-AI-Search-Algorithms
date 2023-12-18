@@ -4,7 +4,7 @@ from queue import PriorityQueue
 from A_star import neighbourr,S_E,short_path,h
 
 
-def greedy(grid):
+def greedy(grid,heuristic="manhattan"):
     
     neighbour = neighbourr(grid)   
     start,end = S_E(grid,0,0)
@@ -17,15 +17,20 @@ def greedy(grid):
     f_score = [ float("inf") for row in grid for spot in row ]
     f_score[start[0]*len(grid[0]) +start[1]] = h(start, end)
 
-    
+    step_counter = 0  # Initialize step counter
+    start_time = time.time()  # Record start time
+
     while not queue_greed.empty():
         current = queue_greed.get()[1]
         visited_set.remove(current)
         if current == end:
             print("finishing")
             grid = short_path(grid, path, end)
-            return True       
+            end_time = time.time()  # Record end time
+            total_time = end_time - start_time  # Calculate total time
+            return True, step_counter, total_time       
         for nei in neighbour[current[0]*len(grid[0]) +current[1]]:
+                step_counter += 1  # Increment step counter for each explored neighbor
                 f_score[nei[0]*len(grid[0]) +nei[1]] = h(nei, end)
                 if nei not in visited_set and nei not in visited_list:
                         queue_greed.put((f_score[nei[0]*len(grid[0]) +nei[1]], nei))
@@ -42,4 +47,6 @@ def greedy(grid):
            time.sleep(0.01)
         
 
-    return False
+    end_time = time.time()  # Record end time if no path is found
+    total_time = end_time - start_time  # Calculate total time
+    return False, step_counter, total_time

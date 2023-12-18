@@ -1,5 +1,6 @@
 from tkinter import * 
 from itertools import count
+from tkinter import messagebox
 import pygame
 import numpy as np
 from queue import PriorityQueue
@@ -11,7 +12,7 @@ from grid import *
 from A_star import *
 from BFS import *
 from greedy import *
-
+from Iterative_DFS import *
 
 GRID = [[0 for x in range(33)] for y in range(33)]
 
@@ -57,7 +58,10 @@ def run_maze_game(num_algorithms, num_mazes):
                         bfs_solve(grid)  # Run BFS algorithm
                     elif num_algorithms == 4:
                         print("Solving using DFS")
-                        dfs_solve(grid)
+                        dfs(grid)
+                    elif num_algorithms == 5:
+                        print("Solving using Iterative DFS")
+                        iter_dfs(grid)    
                 
         screen.fill(two)
         for row in range(33):
@@ -87,9 +91,9 @@ def get_values():
         num_algo = int(entry_algorithms.get())
         num_maze = int(entry_mazes.get())
 
-        if num_algo <= 0 and num_algo > 4:
-            raise ValueError
         if num_algo <= 0 and num_algo > 5:
+            raise ValueError
+        if num_maze <= 0 and num_algo > 5:
             raise ValueError
         run_maze_game(num_algo, num_maze)
     except ValueError:
@@ -130,7 +134,7 @@ entry_algorithms = Entry(frame)
 entry_algorithms.grid(row=0, column=1, pady=5)  # Use grid to place the entry field
 
 #set the name of algorithms 
-name_of_algorithms = Label(frame, text="1 - A_star, 2 - Gready, 3 - BFS, 4 - DFS")
+name_of_algorithms = Label(frame, text="1 - A_star, 2 - Gready, 3 - BFS, 4 - DFS , 5 - iterative DFS" )
 name_of_algorithms.grid(row=0, column=2, pady=5)  # Use grid to place the label
 
 label_mazes = Label(frame, text="Enter the number of mazes:")
