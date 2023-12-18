@@ -14,7 +14,7 @@ from BFS import *
 from greedy import *
 from Iterative_DFS import *
 
-GRID = [[0 for x in range(33)] for y in range(33)]
+
 
 def run_maze_game(num_algorithms, num_mazes):
     
@@ -91,10 +91,9 @@ def get_values():
         num_algo = int(entry_algorithms.get())
         num_maze = int(entry_mazes.get())
 
-        if num_algo <= 0 and num_algo > 5:
+        if (num_algo <= 0 or num_algo > 5) or (num_maze <= 0 or num_algo > 5):
             raise ValueError
-        if num_maze <= 0 and num_algo > 5:
-            raise ValueError
+        
         run_maze_game(num_algo, num_maze)
     except ValueError:
         messagebox.showerror("Error", "Please enter valid numbers greater than zero.")

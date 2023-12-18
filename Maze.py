@@ -72,7 +72,7 @@ while not done:
                     print("Solving")
                     # bfs_solve()
                     # # a_star(grid)
-                    greedy(grid)
+                    a_star(grid)
                     # start, end = S_E(grid, 0, 0)
                     # visited = [[False for _ in range(33)] for _ in range(33)]
                     # if(dfs_solve(grid, start, visited)):

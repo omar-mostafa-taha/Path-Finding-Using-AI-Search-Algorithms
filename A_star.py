@@ -82,6 +82,7 @@ def a_star(grid,heuristic="manhattan"):
         open_set_his.remove(current)
         if current == end:
             print("finishing")
+            grid = short_path(grid,came_from, end)
             end_time = time.time()  # Record end time
             total_time = end_time - start_time  # Calculate total time
             return True, step_counter, total_time
