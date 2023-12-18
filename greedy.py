@@ -10,7 +10,7 @@ def greedy(grid,heuristic="manhattan"):
     start,end = S_E(grid,0,0)
     queue_greed = PriorityQueue()
     queue_greed.put((0, start))
-    visited_set = {start}
+    set_willbe_visited = {start}
     visited_list=[]
     visited_list.append(start)
     path = {} 
@@ -22,7 +22,7 @@ def greedy(grid,heuristic="manhattan"):
 
     while not queue_greed.empty():
         current = queue_greed.get()[1]
-        visited_set.remove(current)
+        set_willbe_visited.remove(current)
         if current == end:
             print("finishing")
             grid = short_path(grid, path, end)
@@ -32,9 +32,9 @@ def greedy(grid,heuristic="manhattan"):
         for nei in neighbour[current[0]*len(grid[0]) +current[1]]:
                 step_counter += 1  # Increment step counter for each explored neighbor
                 f_score[nei[0]*len(grid[0]) +nei[1]] = h(nei, end)
-                if nei not in visited_set and nei not in visited_list:
+                if nei not in  set_willbe_visited and nei not in visited_list:
                         queue_greed.put((f_score[nei[0]*len(grid[0]) +nei[1]], nei))
-                        visited_set.add(nei)
+                        set_willbe_visited.add(nei)
                         visited_list.append(nei)
                         path[nei]=current
                         grid[nei[0]][nei[1]] = 5
@@ -50,3 +50,5 @@ def greedy(grid,heuristic="manhattan"):
     end_time = time.time()  # Record end time if no path is found
     total_time = end_time - start_time  # Calculate total time
     return False, step_counter, total_time
+
+
