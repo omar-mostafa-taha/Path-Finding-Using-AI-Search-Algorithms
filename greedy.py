@@ -10,25 +10,26 @@ def greedy(grid,heuristic="manhattan"):
     start,end = S_E(grid,0,0)
     queue_greed = PriorityQueue()
     queue_greed.put((0, start))
+    visited_cells = 0
     set_willbe_visited = {start}
     visited_list=[]
     visited_list.append(start)
+    visited_cells += 1
     path = {} 
     f_score = [ float("inf") for row in grid for spot in row ]
     f_score[start[0]*len(grid[0]) +start[1]] = h(start, end)
 
     step_counter = 0  # Initialize step counter
     start_time = time.time()  # Record start time
-
     while not queue_greed.empty():
         current = queue_greed.get()[1]
         set_willbe_visited.remove(current)
         if current == end:
             print("finishing")
-            grid = short_path(grid, path, end)
+            grid, goal_path_length = short_path(grid, path, end)
             end_time = time.time()  # Record end time
             total_time = end_time - start_time  # Calculate total time
-            return True, step_counter, total_time       
+            return True, step_counter, visited_cells, goal_path_length, total_time    
         for nei in neighbour[current[0]*len(grid[0]) +current[1]]:
                 step_counter += 1  # Increment step counter for each explored neighbor
                 f_score[nei[0]*len(grid[0]) +nei[1]] = h(nei, end)
@@ -36,6 +37,7 @@ def greedy(grid,heuristic="manhattan"):
                         queue_greed.put((f_score[nei[0]*len(grid[0]) +nei[1]], nei))
                         set_willbe_visited.add(nei)
                         visited_list.append(nei)
+                        visited_cells += 1
                         path[nei]=current
                         grid[nei[0]][nei[1]] = 5
                         pygame.display.update()
@@ -45,10 +47,9 @@ def greedy(grid,heuristic="manhattan"):
            grid[current[0]][current[1]] = 6
            pygame.display.update()
            time.sleep(0.01)
-        
-
+   
     end_time = time.time()  # Record end time if no path is found
     total_time = end_time - start_time  # Calculate total time
-    return False, step_counter, total_time
+    return False, step_counter, visited_cells, goal_path_length, total_time
 
 

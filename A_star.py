@@ -54,11 +54,14 @@ def S_E(grid,start,end):
     return start,end
 
 def short_path(grid, came_from, current):
+     goal_path_length = 0
      grid[current[0]][current[1]] = 4
+     goal_path_length += 1
      while current in came_from:
          current = came_from[current]
          grid[current[0]][current[1]] = 4
-     return grid
+         goal_path_length += 1
+     return grid, goal_path_length
  
 def a_star(grid,heuristic="manhattan"):
     
@@ -66,7 +69,9 @@ def a_star(grid,heuristic="manhattan"):
 
     start,end = S_E(grid,0,0)
     open_set = PriorityQueue()
+    visited_cells = 0
     open_set.put((0,start))
+    visited_cells += 1
     open_set_his = {start}
     came_from = {}
     
@@ -82,10 +87,10 @@ def a_star(grid,heuristic="manhattan"):
         open_set_his.remove(current)
         if current == end:
             print("finishing")
-            grid = short_path(grid,came_from, end)
+            grid,goal_path_length = short_path(grid,came_from, end)
             end_time = time.time()  # Record end time
             total_time = end_time - start_time  # Calculate total time
-            return True, step_counter, total_time
+            return True, step_counter, visited_cells, goal_path_length, total_time
         for nei in neighbour[current[0]*len(grid[0]) +current[1]]:
             step_counter += 1  # Increment step counter for each explored neighbor
             temp_g_score = g_score[current[0]*len(grid[0]) +current[1]] + 1
@@ -95,6 +100,7 @@ def a_star(grid,heuristic="manhattan"):
                 f_score[nei[0]*len(grid[0]) +nei[1]] = temp_g_score + h(nei, end)
                 if nei not in open_set_his:
                     open_set.put((f_score[nei[0]*len(grid[0]) +nei[1]],  nei))
+                    visited_cells += 1
                     open_set_his.add(nei)
                     grid[nei[0]][nei[1]] = 5
                     pygame.display.update()
@@ -108,7 +114,7 @@ def a_star(grid,heuristic="manhattan"):
 
     end_time = time.time()  # Record end time if no path is found
     total_time = end_time - start_time  # Calculate total time
-    return False, step_counter, total_time
+    return False, step_counter, visited_cells, goal_path_length, total_time
 
 
 
