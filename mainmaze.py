@@ -91,7 +91,7 @@ def get_values():
         num_algo = int(entry_algorithms.get())
         num_maze = int(entry_mazes.get())
 
-        if (num_algo <= 0 or num_algo > 5) or (num_maze <= 0 or num_algo > 5):
+        if (num_algo <= 0 or num_algo > 5) or (num_maze <= 0 or num_maze > 5):
             raise ValueError
         
         run_maze_game(num_algo, num_maze)
