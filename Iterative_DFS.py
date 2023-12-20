@@ -24,7 +24,6 @@ def iter_dfs(maze):
 
             # If goal found, return the path
             if maze[i][j] == 3:
-                print("Found a path")
                 path = path + [(i, j)]
 
                 # Mark visited cells
@@ -49,7 +48,6 @@ def iter_dfs(maze):
                     stack.append(((new_i, new_j), path + [(i, j)]))
                     step_counter += 1  # Increment step counter for each explored neighbor
 
-    print("No path found to the goal")
     end_time = time.time()  # Record end time if no path is found
     total_time = end_time - start_time  # Calculate total time
     return False, step_counter, visited_cells, goal_path_length, total_time

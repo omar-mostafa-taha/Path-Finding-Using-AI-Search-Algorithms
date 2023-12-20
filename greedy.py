@@ -25,7 +25,6 @@ def greedy(grid,heuristic="manhattan"):
         current = queue_greed.get()[1]
         set_willbe_visited.remove(current)
         if current == end:
-            print("finishing")
             grid, goal_path_length = short_path(grid, path, end)
             end_time = time.time()  # Record end time
             total_time = end_time - start_time  # Calculate total time

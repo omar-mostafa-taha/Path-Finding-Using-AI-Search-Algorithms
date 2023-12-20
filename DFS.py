@@ -22,7 +22,7 @@ def dfs_solve(maze, current, visited, step_counter=0, visited_cells=0, goal_path
     visited_cells += 1  # Increment visited cell count
 
     if maze[i][j] == 3:
-        print("Found a path")
+  
         maze[i][j] = 4  # Mark the goal cell
         goal_path_length += 1  # Increment goal path length
         end_time = time.time()  # Record end time
